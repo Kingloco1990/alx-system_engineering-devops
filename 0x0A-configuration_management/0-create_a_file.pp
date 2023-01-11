@@ -1,7 +1,9 @@
-# Creates a file
+# Create a file using Puppet
+
 file { '/tmp/school':
-  mode    => '0744',
+  ensure  => 'present',
+  content => 'I love Puppet',
   owner   => 'www-data',
   group   => 'www-data',
-  content => 'I love Puppet'
-}}
+  mode    => '0744'
+}
