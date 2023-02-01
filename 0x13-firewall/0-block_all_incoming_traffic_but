@@ -2,13 +2,12 @@
 # Configures a ufw firewall to block all incoming traffic
 #+ except for TCP ports 22, 443 and 80.
 
-sudo apt install ufw
-sudo nano /etc/default/ufw
-IPV6=yes
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-sudo ufw disable
-sudo ufw enable
-sudo ufw deny 22/tcp
-sudo ufw deny 443/tcp
-sudo ufw deny 80/tcp
+apt-get install ufw
+sed -i 's/IPV6=.*/IPV6=yes/' /etc/default/ufw
+ufw default deny incoming
+ufw default allow outgoing
+ufw disable
+ufw enable
+ufw allow 22/tcp
+ufw allow 443/tcp
+ufw allow 80/tcp
