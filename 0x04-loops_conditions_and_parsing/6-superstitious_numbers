@@ -5,7 +5,6 @@
 #   "bad luck from Italy" for the 17th loop iteration
 
 count=1
-
 while [ $count -le 20 ]
 do
 	echo "$count"
@@ -14,5 +13,5 @@ do
 		"9") echo "bad luck from Japan";;
 		"17") echo "bad luck from Italy";;
 	esac
-	(( count++ ))
+	((count++))
 done
