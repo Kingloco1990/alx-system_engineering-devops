@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Displays information about the file `school`
 
+# Check if the file exists
 if [ -e "school" ]
 then
-	# Check if the file exists
 	echo "school file exists"
 
 	# Check if the file is empty
