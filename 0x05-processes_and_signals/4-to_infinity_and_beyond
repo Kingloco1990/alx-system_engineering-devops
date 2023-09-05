@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
-# This script displays a statement indefinitely
-while true; do
+# This script displays a statement "To infinity and beyond" indefinitely
+
+# Infinite loop displaying the message
+while true;
+do
     echo "To infinity and beyond"
+    # 2-second pause between each iteration 
     sleep 2
 done
