@@ -4,6 +4,4 @@
 # Display a user-oriented format
 # Show process hierarchy
 
-ps -a -x -u -f
-Footer
-© 2022 GitHub, Inc.
+ps auxf
