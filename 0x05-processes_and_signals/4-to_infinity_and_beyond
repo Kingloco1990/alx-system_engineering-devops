@@ -2,7 +2,7 @@
 # This script displays a statement "To infinity and beyond" indefinitely
 
 # Infinite loop displaying the message
-while true;
+while true
 do
     echo "To infinity and beyond"
     # 2-second pause between each iteration 
