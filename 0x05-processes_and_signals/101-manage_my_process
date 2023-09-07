@@ -26,12 +26,13 @@ then
 elif [ "$1" == "stop" ]
 then
 	pgrep -f "./manage_my_process" > /var/run/my_process.pid
-  	kill "$(cat /var/run/my_process.pid)" 
+  	kill "$(cat /var/run/my_process.pid)" &
 	rm /var/run/my_process.pid
 	echo "manage_my_process stopped"
 elif [ "$1" == "restart" ]
 then
-	kill "$(pgrep -f "./manage_my_process")"
+	pgrep -f "./manage_my_process" > /var/run/my_process.pid
+	kill "$(cat /var/run/my_process.pid)" &
 	rm /var/run/my_process.pid
   	./manage_my_process &
 	echo $$ > /var/run/my_process.pid
