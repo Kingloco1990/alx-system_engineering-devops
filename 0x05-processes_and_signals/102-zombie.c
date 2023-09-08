@@ -3,9 +3,11 @@
 #include "unistd.h"
 
 /**
- * infinite_while - a function that runs forever and returns nothing
+ * infinite_while - This function enters an infinite loop
+ *                  and sleeps for 1 second in each iteration.
  *
- * Return: 0 in the end
+ * Return: 0 when the loop is terminated but in practice,
+ *         this function is intended to run indefinitely.
  */
 int infinite_while(void)
 {
