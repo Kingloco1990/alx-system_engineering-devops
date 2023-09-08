@@ -2,4 +2,4 @@
 # This script stops the 4-to_infinity_and_beyond process.
 
 # Terminate the infinate process
-pkill -f 4-to_infinity_and_beyond
+pkill -f 7-highlander
