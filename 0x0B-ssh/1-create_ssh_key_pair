@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-# Create an RSA ssh key pair
+# Create an RSA ssh key pair with specified key names and a passphrase
+# to encrypt the private key.
 
-ssh-keygen -b 4096 -f school -N betty
+ssh-keygen -b 4096 -t rsa -f school -N betty
