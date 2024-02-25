@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-# Connects to server name: 38717-web-01 with IP: 54.160.69.175
+# Connects to server name: 38717-web-01 with IP: 54.164.209.217
 
-ssh -i ~/.ssh/school ubuntu@54.160.69.175
+ssh -i ~/.ssh/school ubuntu@54.164.209.217
