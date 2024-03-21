@@ -1,0 +1,17 @@
+#!/bin/bash
+# Transfers a file from our client to a server.
+
+# Check if the number of parameters is less than 4
+if [ "$#" -lt 4 ]; then
+    echo "Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
+    exit 1
+fi
+
+# Assign parameters to variables
+path_to_file=$1
+ip=$2
+username=$3
+ssh_key=$4
+
+# Transfer the file using scp
+scp -o StrictHostKeyChecking=no -i "$ssh_key" "$path_to_file" "$username@$ip":~/
