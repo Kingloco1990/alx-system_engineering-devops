@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Script to install Nginx and configure it to return "Hello World!" on the root "/" endpoint.
+
+# Update package lists
+apt-get update
+
+# Install Nginx
+apt-get install -y nginx
+
+# Set up default index page
+echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+
+# Restart Nginx
+service nginx restart
