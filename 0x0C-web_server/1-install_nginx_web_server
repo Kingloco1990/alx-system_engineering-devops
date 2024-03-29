@@ -10,29 +10,5 @@ apt-get install -y nginx
 # Set up default index page
 echo 'Hello World!' > /var/www/html/index.html
 
-# Define the server name
-server_name='38717-web-01'
-
-# Define the new server block configuration
-new_config="server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
-
-	root /var/www/html;
-	index index.html index.htm index.nginx-debian.html;
-
-	server_name $server_name;
-
-	location / {
-		try_files \$uri \$uri/ =404;
-	}
-}"
-
-# Define the file to be edited
-file="/etc/nginx/sites-available/default"
-
-# Replace the server block configuration in the file
-sed -i '/# Virtual Host configuration for example.com/,/#}/c'"$new_config" "$file"
-
 # Restart Nginx
 service nginx restart
