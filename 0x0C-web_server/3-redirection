@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Script to install Nginx and configure it to return "Hello World!" on the root "/" endpoint,
+# and also configures the Nginx server so that /redirect_me is redirecting to another page.
+
+# Update package lists
+apt-get update
+
+# Install Nginx
+apt-get install -y nginx
+
+# Set up default index page
+echo 'Hello World!' > /var/www/html/index.html
+
+# Define the file path for Nginx configuration
+file="/etc/nginx/sites-available/default"
+
+# Define the replacement string with newline-separated lines for the redirect configuration
+redirect_config="\#       location \/redirect_me {\n\#               return 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;\n\#       }"
+
+# Perform the substitution using sed within a range in the Nginx configuration file
+sed -i '/#       location \/ {/,/#       }/c\'"$redirect_config" "$file"
+
+# Restart Nginx to apply the changes
+service nginx restart
+
