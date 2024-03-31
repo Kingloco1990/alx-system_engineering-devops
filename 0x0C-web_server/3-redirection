@@ -18,7 +18,7 @@ file="/etc/nginx/sites-available/default"
 redirect_config="\#       location \/redirect_me {\n\#               return 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;\n\#       }"
 
 # Perform the substitution using sed within a range in the Nginx configuration file
-sed -i '/#       location \/ {/,/#       }/c\'"$redirect_config" "$file"
+sed -i '/#       location \/ {/,/#       }/c'\'"$redirect_config" "$file"
 
 # Restart Nginx to apply the changes
 service nginx restart
