@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Script to install Nginx and configure it to return "Hello World!" on the root "/" endpoint,
 # and also configures the Nginx server so that /redirect_me is redirecting to another page.
 
