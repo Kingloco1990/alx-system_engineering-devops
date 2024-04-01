@@ -25,10 +25,10 @@ sed -i "s/location \/ {/location \/redirect_me {/; s/try_files \$uri \$uri\/ =40
 
 # Define the content to append
 content='
-        \n\terror_page 404 \/custom_404.html; \
-        location = \/custom_404.html { \
-            root \/var\/www\/error; \
-            internal; \
+        \n\terror_page 404 \/custom_404.html;\
+        location = \/custom_404.html {\
+            root \/var\/www\/error;\
+            internal;\
         }'
 
 # Use sed to append the content after the specified text in every location block in the file
