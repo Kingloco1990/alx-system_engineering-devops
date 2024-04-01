@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# Script to install Nginx and configure it to return "Hello World!" on the root "/" endpoint,
-# and also configures the Nginx server so that /redirect_me is redirecting to another page.
-# The scritp also configures the Nginx server to have a custom 404 page that contains the string Ceci n'est pas une page.
+# Installs Nginx, sets up a default 'Hello World!' page on '/', configures redirection to another page at '/redirect_me', 
+# and adds a custom 404 page containing 'Ceci n'est pas une page'.
+
+
 
 # Update package lists
 apt-get update
