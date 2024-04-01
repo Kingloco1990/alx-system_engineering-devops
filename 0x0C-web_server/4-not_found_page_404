@@ -24,15 +24,10 @@ file="/etc/nginx/sites-available/default"
 sed -i "s/location \/ {/location \/redirect_me {/; s/try_files \$uri \$uri\/ =404;/return 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;/" "$file"
 
 # Define the content to append
-content='
-        \n\terror_page 404 \/custom_404.html;\
-        location = \/custom_404.html {\
-            root \/var\/www\/error;\
-            internal;\
-        }'
+content='\n\terror_page 404 /custom_404.html;\n\tlocation = /custom_404.html {\n\t\troot /var/www/error;\n\t\tinternal;\n\t}'
 
 # Use sed to append the content after the specified text in every location block in the file
-sed -i '/^\s\+}/a'\'"$content" "$file"
+sed  '/^\s\+}/a\'"$content" "$file"
 
 # Restart Nginx to apply the changes
 service nginx restart
