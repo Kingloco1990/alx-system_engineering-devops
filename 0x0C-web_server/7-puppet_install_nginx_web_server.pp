@@ -6,6 +6,7 @@ exec { 'Update package lists':
 }
 
 package { 'nginx'
+    comman => 'apt-get install -y nginx',
     ensure => installed,
 }
 
