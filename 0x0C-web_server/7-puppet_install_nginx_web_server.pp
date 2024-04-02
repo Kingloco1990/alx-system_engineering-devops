@@ -5,7 +5,7 @@ exec { 'Update package lists':
     path    => ['/bin', '/usr/bin', '/usr/sbin'],
 }
 
-package { 'nginx'
+package { 'nginx':
     comman => 'apt-get install -y nginx',
     ensure => installed,
 }
