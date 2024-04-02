@@ -2,7 +2,7 @@
 
 exec { 'Update package lists':
     command => 'apt-get update',
-    path    => ['/bin', '/usr/bin', '/usr/sbin'], 
+    path    => ['/bin', '/usr/bin', '/usr/sbin'],
 }
 
 package { 'nginx'
@@ -17,11 +17,11 @@ file { '/var/www/html/index.html':
 }
 
 exec { 'redirection configuration':
-    command => sed -i "s/location \/ {/location \/redirect_me {/; s/try_files \$uri \$uri\/ =404;/return 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;/" /etc/nginx/sites-available/default,
+    command => "sed -i 's/location \/ {/location \/redirect_me {/; s/try_files \$uri \$uri\/ =404;/return 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;/' /etc/nginx/sites-available/default",
     path    => ['/bin', '/usr/bin', '/usr/sbin'],
 }
 
 exec { 'Restart Nginx':
     command => 'service nginx restart',
-    path    => ['/bin', '/usr/bin', '/usr/sbin'], 
+    path    => ['/bin', '/usr/bin', '/usr/sbin'],
 }
