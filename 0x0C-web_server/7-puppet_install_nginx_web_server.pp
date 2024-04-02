@@ -1,20 +1,12 @@
 # Installs and configures an Nginx web server using Puppet.
 
-exec { 'Update package lists':
-    command => 'apt-get update',
-    path    => ['/bin', '/usr/bin', '/usr/sbin'],
-}
-
 package { 'nginx':
-    comman => 'apt-get install -y nginx',
     ensure => installed,
 }
 
-file { '/var/www/html/index.html':
-    ensure  => 'file',
-    path    => '/var/www/html/index.html',
-    content => 'Hello World!',
-    mode    => '0744',
+exec {'Defautl page':
+    command => "sudo echo 'Hello World!' > /var/www/html/index.html",
+    path    => ['/bin', '/usr/bin', '/usr/sbin'],
 }
 
 exec { 'redirection configuration':
