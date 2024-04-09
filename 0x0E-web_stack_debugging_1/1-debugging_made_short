@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Script that sets the port 80
+# This script configures the NGINX web server to listen on port 80 instead of 8080.
 sed -i "s/8080/80/g" /etc/nginx/sites-enabled/default
 service nginx restart
 kill -9 "$(cat /run/nginx.pid)"
