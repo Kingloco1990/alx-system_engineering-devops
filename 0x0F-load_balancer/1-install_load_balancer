@@ -1,13 +1,39 @@
 #!/usr/bin/env bash
-# Configure Nginx so that its HTTP response contains
-# a custom header
-# Add HAProxy PPA
-sudo apt-get -y install software-properties-common
-sudo add-apt-repository -y ppa:vbernat/haproxy-2.5
-sudo apt-get -y update
+# This script automates the configuration of HAProxy to distribute traffic between web-01 and web-02.
+
+# Update package lists to ensure installation of the latest versions
+sudo apt-get update
 
 # Install HAProxy
-sudo apt-get -y install haproxy
-sudo sed -i -e '$aENABLED=1\n' /etc/default/haproxy
-sudo sed -i -e '$a\listen http-in\n\tbind :80\n\tbalance roundrobin\n\tserver 87235-web-01 34.232.76.78:80 check\n\tserver 87235-web-02 54.210.84.227:80 check\n' /etc/haproxy/haproxy.cfg
+sudo apt-get install -y haproxy
+
+# Define the HAProxy configuration file
+file="/etc/haproxy/haproxy.cfg"
+
+# Define the backend content to be appended
+b_content="
+backend web-backend
+    balance roundrobin
+    server 38717-web-01 54.164.209.217:80 check
+    server 38717-web-02 18.204.9.187:80 check"
+
+# Append backend configuration if it does not exist in the file
+if ! grep -qF "backend web-backend" "$file"; then
+    echo "$b_content" >> "$file"
+fi
+
+# Define the frontend content to be appended
+f_content="
+frontend http
+    bind *:80
+    mode http
+
+    default_backend web-backend"
+
+# Append frontend configuration if it does not exist in the file
+if ! grep -qF "frontend http" "$file"; then
+    echo "$f_content" >> "$file"
+fi
+
+# Restart HAProxy service to apply the configuration changes
 sudo service haproxy restart
