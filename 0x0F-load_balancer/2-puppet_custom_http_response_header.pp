@@ -1,25 +1,18 @@
-# Installs a Nginx server with custome HTTP header
+# Installs and configures an Nginx web server.
 
-exec {'update':
-  provider => shell,
-  command  => 'sudo apt-get -y update',
-  before   => Exec['install Nginx'],
+# Install Nginx package
+package { 'nginx':
+    ensure => installed,  # Ensure that the Nginx package is installed on the system
 }
 
-exec {'install Nginx':
-  provider => shell,
-  command  => 'sudo apt-get -y install nginx',
-  before   => Exec['add_header'],
+# Configure custom HTTP header in Nginx
+exec { 'custom HTTP header':
+    command => "sed -i 's/root \/var\/www\/html;/root \/var\/www\/html;\n\n\tadd_header X-Served-By $HOSTNAME;/' /etc/nginx/sites-available/default",
+    path    => ['/bin', '/usr/bin', '/usr/sbin'],  # Set the path for the command execution
 }
 
-exec { 'add_header':
-  provider    => shell,
-  environment => ["HOST=${hostname}"],
-  command     => 'sudo sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOST\";/" /etc/nginx/nginx.conf',
-  before      => Exec['restart Nginx'],
-}
-
-exec { 'restart Nginx':
-  provider => shell,
-  command  => 'sudo service nginx restart',
+# Restart Nginx service to apply changes
+exec { 'Restart Nginx':
+    command => 'service nginx restart',  # Restart the Nginx service
+    path    => ['/bin', '/usr/bin', '/usr/sbin'],  # Set the path for the command execution
 }
