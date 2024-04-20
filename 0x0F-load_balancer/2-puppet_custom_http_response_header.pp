@@ -1,25 +1,22 @@
-# Installs a Nginx server with custome HTTP header
+# Installs and configures an Nginx web server using Puppet.
 
-exec {'update':
-  provider => shell,
-  command  => 'sudo apt-get -y update',
-  before   => Exec['install Nginx'],
+# Install the Nginx package
+package { 'nginx':
+    ensure => installed, # Ensure that the package is installed
 }
 
-exec {'install Nginx':
-  provider => shell,
-  command  => 'sudo apt-get -y install nginx',
-  before   => Exec['add_header'],
+# Define a fact to fetch the hostname
+$hostname = $facts['hostname']
+
+# Use exec resource to substitute text in the NGINX configuration file
+exec { 'custom HTTP header':
+    environment => ["HOST=${hostname}"], # Set environment variable for the hostname
+    command => "sed -i 's/root \/var\/www\/html;/root \/var\/www\/html;\n\n\tadd_header X-Served-By $HOST;/' /etc/nginx/sites-available/default", # Command to substitute text in NGINX config file
+    path    => ['/bin', '/usr/bin', '/usr/sbin'], # Set the path for command execution
 }
 
-exec { 'add_header':
-  provider    => shell,
-  environment => ["HOST=${hostname}"],
-  command     => 'sudo sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOST\";/" /etc/nginx/nginx.conf',
-  before      => Exec['restart Nginx'],
-}
-
-exec { 'restart Nginx':
-  provider => shell,
-  command  => 'sudo service nginx restart',
+# Define an Exec resource to restart Nginx service
+exec { 'Restart Nginx':
+    command => 'service nginx restart', # Command to restart Nginx service
+    path    => ['/bin', '/usr/bin', '/usr/sbin'], # Set the path for command execution
 }
