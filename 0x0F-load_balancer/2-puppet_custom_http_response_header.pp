@@ -1,17 +1,21 @@
 # Installs and configures an Nginx web server using Puppet.
 
+exec { 'Update the package lists':
+    command => 'apt-get update',
+    path    => ['/bin', '/usr/bin', '/usr/sbin'],
+}
+
 package { 'nginx':
     ensure => installed,
 }
 
-exec { 'add_header':
-  provider    => shell,
-  environment => ["HOST=${hostname}"],
-  command     => 'sudo sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOST\";/" /etc/nginx/nginx.conf',
-  before      => Exec['restart Nginx'],
+file_line { 'Add custom HTTP header':
+    path  => '/etc/nginx/sites-available/default',
+    match => '/root \/var\/www\/html;',
+    line  => '/root \/var\/www\/html;\n\n\tadd_header X-Served-By $HOSTNAME;/',
+    multiple => false,
 }
 
-# Define an Exec resource to restart Nginx service
 exec { 'Restart Nginx':
     command => 'service nginx restart',
     path    => ['/bin', '/usr/bin', '/usr/sbin'],
