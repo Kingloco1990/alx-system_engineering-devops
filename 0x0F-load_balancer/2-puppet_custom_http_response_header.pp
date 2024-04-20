@@ -3,7 +3,8 @@
 exec {'update':
   command => '/usr/bin/apt-get update',
 }
--> package { 'nginx':
+
+package { 'nginx':
   ensure => installed,
 }
 -> file_line { 'header_served_by':
