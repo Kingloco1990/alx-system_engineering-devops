@@ -10,8 +10,8 @@ exec { 'Update the package lists':
 
 -> file_line { 'Add custom HTTP header':
   path  => '/etc/nginx/sites-available/default',
-  match => '^server {',
-  line  => "server {\n\tadd_header X-Served-By \"${hostname}\";",
+  match => 'root /var/www/html;',
+  line  => 'root /var/www/html;\n\n\tadd_header X-Served-By $hostname;',
   multiple => false,
 }
 
