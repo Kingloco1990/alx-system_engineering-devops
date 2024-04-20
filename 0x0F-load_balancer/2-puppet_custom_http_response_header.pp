@@ -1,16 +1,21 @@
-# instal and configure nginx
-exec {'update':
-  command => '/usr/bin/apt-get update',
+# Installs and configures an Nginx web server using Puppet.
+
+exec {'Update the package lists':
+    command => '/usr/bin/apt-get update',
 }
--> package { 'nginx':
-  ensure => installed,
+
+package { 'nginx':
+    ensure => installed,
 }
--> file_line { 'header_served_by':
-  path  => '/etc/nginx/sites-available/default',
-  match => '^server {',
-  line  => "server {\n\tadd_header X-Served-By \"${hostname}\";",
-  multiple => false,
+
+file_line { 'Add custom HTTP header':
+    path  => '/etc/nginx/sites-available/default',
+    match => '^server {',
+    line  => "server {\n\tadd_header X-Served-By \"${hostname}\";",
+    multiple => false,
 }
--> exec {'run':
-  command => '/usr/sbin/service nginx restart',
+
+exec { 'Restart Nginx':
+    command => 'service nginx restart',
+    path    => ['/bin', '/usr/bin', '/usr/sbin'],
 }
