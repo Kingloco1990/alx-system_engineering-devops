@@ -1,6 +1,6 @@
 # Installs and configures an Nginx web server using Puppet.
 
-exec {'update':
+exec { 'Update the package lists':
   command => '/usr/bin/apt-get update',
 }
 
@@ -8,13 +8,13 @@ exec {'update':
   ensure => installed,
 }
 
--> file_line { 'header_served_by':
+-> file_line { 'Add custom HTTP header':
   path  => '/etc/nginx/sites-available/default',
   match => '^server {',
   line  => "server {\n\tadd_header X-Served-By \"${hostname}\";",
   multiple => false,
 }
 
--> exec {'run':
+-> exec { 'Restart Nginx':
   command => '/usr/sbin/service nginx restart',
 }
