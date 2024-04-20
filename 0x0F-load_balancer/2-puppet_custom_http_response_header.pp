@@ -1,35 +1,32 @@
-# Nginx web server setup and configuration
+# Installs and configures an Nginx web server using Puppet.
+
 exec { 'apt-get-update':
   command => '/usr/bin/apt-get update',
 }
 
 package { 'nginx':
   ensure  => installed,
-  require => Exec['apt-get-update'],
 }
 
-file_line { 'a':
+exec {'defautl page':
+    command => "sudo echo 'Hello World!' > /var/www/html/index.html",
+    path    => ['/bin', '/usr/bin', '/usr/sbin'],
+}
+
+file_line { 'redirection configuration':
   ensure  => 'present',
   path    => '/etc/nginx/sites-available/default',
   after   => 'listen 80 default_server;',
-  line    => 'rewrite ^/redirect_me https://sketchfab.com/bluepeno/models permanent;',
-  require => Package['nginx'],
+  line    => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
 }
 
-file_line { 'b':
+file_line { 'add custom header':
   ensure  => 'present',
   path    => '/etc/nginx/sites-available/default',
-  after   => 'listen 80 default_server;',
+  after   => 'root /var/www/html;',
   line    => 'add_header X-Served-By $hostname;',
-  require => Package['nginx'],
 }
 
-file { '/var/www/html/index.html':
-  content => 'Holberton School',
-  require => Package['nginx'],
-}
-
-service { 'nginx':
-  ensure  => running,
-  require => Package['nginx'],
+exec { 'restart nginx':
+  command => '/usr/sbin/service nginx restart',
 }
