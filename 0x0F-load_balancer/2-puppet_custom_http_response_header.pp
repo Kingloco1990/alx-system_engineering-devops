@@ -8,7 +8,7 @@ package { 'nginx':
 # Use exec resource to substitute text in the NGINX configuration file
 exec { 'custom HTTP header':
     environment => ["HOST=${hostname}"], # Set environment variable for the hostname
-    command => "sed -i 's/root \/var\/www\/html;/root \/var\/www\/html;\n\n\tadd_header X-Served-By $HOST;/' /etc/nginx/sites-available/default", # Command to substitute text in NGINX config file
+    command => 'sed -i "s/root \/var\/www\/html;/root \/var\/www\/html;\n\n\tadd_header X-Served-By $HOST;/" /etc/nginx/sites-available/default', # Command to substitute text in NGINX config file
     path    => ['/bin', '/usr/bin', '/usr/sbin'], # Set the path for command execution
 }
 
