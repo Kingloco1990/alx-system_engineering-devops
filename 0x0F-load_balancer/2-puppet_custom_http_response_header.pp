@@ -6,10 +6,12 @@ exec { 'apt-get-update':
 
 package { 'nginx':
     ensure  => installed,
+    require => Exec['apt-get-update'],
 }
 
 file { '/var/www/html/index.html':
     content => 'Hello World!',
+    require => Package['nginx'],
 }
 
 file_line { 'redirection configuration':
@@ -17,6 +19,7 @@ file_line { 'redirection configuration':
     path    => '/etc/nginx/sites-available/default',
     after   => 'listen 80 default_server;',
     line    => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
+    require => Package['nginx'],
 }
 
 file_line { 'add custom header':
@@ -24,6 +27,7 @@ file_line { 'add custom header':
     path    => '/etc/nginx/sites-available/default',
     after   => 'root /var/www/html;',
     line    => 'add_header X-Served-By $hostname;',
+    require => Package['nginx'],
 }
 
 service { 'nginx':
