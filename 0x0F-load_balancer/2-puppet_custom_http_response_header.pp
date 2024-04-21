@@ -6,7 +6,6 @@ exec { 'apt-get-update':
 
 package { 'nginx':
     ensure  => installed,
-    require => Exec['apt-get-update'],
 }
 
 file { '/var/www/html/index.html':
@@ -31,4 +30,5 @@ file_line { 'add custom header':
 
 service { 'nginx':
     ensure  => running,
+    require => Package['nginx'],
 }
