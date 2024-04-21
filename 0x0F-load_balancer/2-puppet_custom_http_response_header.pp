@@ -30,6 +30,6 @@ file_line { 'add custom header':
 }
 
 exec { 'Restart Nginx':
-    command => 'service nginx restart',
+    command => 'sudo service nginx restart',
     path    => ['/bin', '/usr/bin', '/usr/sbin'],
 }
