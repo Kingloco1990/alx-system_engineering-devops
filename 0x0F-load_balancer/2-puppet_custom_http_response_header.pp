@@ -11,7 +11,6 @@ package { 'nginx':
 
 file { '/var/www/html/index.html':
     content => 'Hello World!',
-    require => Package['nginx'],
 }
 
 file_line { 'redirection configuration':
