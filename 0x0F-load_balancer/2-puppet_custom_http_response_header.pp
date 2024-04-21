@@ -1,32 +1,32 @@
 # Installs and configures an Nginx web server using Puppet.
 
 exec { 'apt-get-update':
-  command => '/usr/bin/apt-get update',
+    command => '/usr/bin/apt-get update',
 }
 
 package { 'nginx':
-  ensure  => installed,
+    ensure  => installed,
 }
 
-exec {'defautl page':
-    command => "sudo echo 'Hello World!' > /var/www/html/index.html",
-    path    => ['/bin', '/usr/bin', '/usr/sbin'],
+file { '/var/www/html/index.html':
+    content => 'Hello World!',
 }
 
 file_line { 'redirection configuration':
-  ensure  => 'present',
-  path    => '/etc/nginx/sites-available/default',
-  after   => 'listen 80 default_server;',
-  line    => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
+    ensure  => 'present',
+    path    => '/etc/nginx/sites-available/default',
+    after   => 'listen 80 default_server;',
+    line    => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
 }
 
 file_line { 'add custom header':
-  ensure  => 'present',
-  path    => '/etc/nginx/sites-available/default',
-  after   => 'root /var/www/html;',
-  line    => 'add_header X-Served-By $hostname;',
+    ensure  => 'present',
+    path    => '/etc/nginx/sites-available/default',
+    after   => 'root /var/www/html;',
+    line    => 'add_header X-Served-By $hostname;',
 }
 
-exec { 'restart nginx':
-  command => '/usr/sbin/service nginx restart',
+service { 'nginx':
+    ensure  => running,
+    require => Package['nginx'],
 }
