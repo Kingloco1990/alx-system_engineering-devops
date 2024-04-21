@@ -29,7 +29,6 @@ file_line { 'add custom header':
     require => Package['nginx'],
 }
 
-service { 'nginx':
-    ensure  => running,
-    require => Package['nginx'],
+exec { 'restart nginx':
+    command => '/usr/sbin/service nginx restart',
 }
