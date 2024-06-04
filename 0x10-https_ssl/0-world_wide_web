@@ -1,22 +1,27 @@
 #!/usr/bin/env bash
-# Configures my domain zone so that the subdomain www points to your load-balancer IP (lb-01).
+# This script configures the domain zone to point the specified subdomains to respective IP addresses.
 
+# Function to query DNS information for a subdomain of a domain
 query_subdomain_info() {
     local domain="$1"
     local subdomain="$2"
 
+    # Retrieve DNS record type and IP address for the subdomain
     record_type=$(dig "$subdomain"."$domain" | grep -A1 'ANSWER SECTION:' | tail -n1 | awk '{print $4}')
     IP_address=$(dig "$subdomain"."$domain" | grep -A1 'ANSWER SECTION:' | tail -n1 | awk '{print $5}')
 
-    # Output information
+    # Output information about the subdomain
     echo "The subdomain $subdomain is a $record_type record and points to $IP_address"
 }
 
+# Check the number of command-line arguments
 if [[ "$#" == 1 ]]; then
+    # If only one argument is provided, query information for specific subdomains
     query_subdomain_info "$1" "www"
     query_subdomain_info "$1" "lb-01"
     query_subdomain_info "$1" "web-01"
     query_subdomain_info "$1" "web-02"
 elif [[ "$#" == 2 ]]; then
+    # If two arguments are provided, query information for the specified subdomain
     query_subdomain_info "$1" "$2"
 fi
