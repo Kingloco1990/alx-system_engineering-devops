@@ -14,8 +14,8 @@ file="/etc/haproxy/haproxy.cfg"
 b_content="
 backend web-backend
     balance roundrobin
-    server 38717-web-01 54.164.209.217:80 check
-    server 38717-web-02 18.204.9.187:80 check"
+    server 38717-web-01 35.174.211.168:80 check
+    server 38717-web-02 54.236.53.244:80 check"
 
 # Append backend configuration if it does not exist in the file
 if ! grep -qF "backend web-backend" "$file"; then
