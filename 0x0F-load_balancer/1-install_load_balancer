@@ -12,26 +12,25 @@ file="/etc/haproxy/haproxy.cfg"
 
 # Define the backend content to be appended
 b_content="
-backend web-backend
+backend www-backend
     balance roundrobin
     server 38717-web-01 35.174.211.168:80 check
     server 38717-web-02 54.236.53.244:80 check"
 
 # Append backend configuration if it does not exist in the file
-if ! grep -qF "backend web-backend" "$file"; then
+if ! grep -qF "backend www-backend" "$file"; then
     echo "$b_content" >> "$file"
 fi
 
 # Define the frontend content to be appended
 f_content="
-frontend http
+frontend www-http
     bind *:80
-    mode http
-
-    default_backend web-backend"
+    http-request add-header X-Forwarded-Proto http
+    default_backend www-backend"
 
 # Append frontend configuration if it does not exist in the file
-if ! grep -qF "frontend http" "$file"; then
+if ! grep -qF "frontend www-http" "$file"; then
     echo "$f_content" >> "$file"
 fi
 
