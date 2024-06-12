@@ -17,6 +17,9 @@ global
         ssl-default-bind-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
         ssl-default-bind-options ssl-min-ver TLSv1.2 no-tls-tickets
 
+    # Set Diffie-Hellman parameter size to 2048 bits for better security
+    tune.ssl.default-dh-param 2048
+
 defaults
     log global
     mode    http
@@ -40,10 +43,10 @@ backend www-backend
 
 frontend www-http
     bind *:80
-    reqadd X-Forwarded-Proto:\ http
+    http-request add-header X-Forwarded-Proto http
     default_backend www-backend
 
 frontend www-https
     bind *:443 ssl crt /etc/haproxy/certs/www.devkingloco.tech.pem
-    reqadd X-Forwarded-Proto:\ https
+    http-request add-header X-Forwarded-Proto https
     default_backend www-backend
