@@ -13,9 +13,9 @@ where <user_id> is the ID of the user passed as a command-line argument.
 Usage:
     $ python3 script_name.py <user_id>
 """
+import csv
 import requests
 import sys
-import csv
 
 if __name__ == "__main__":
     # Base URL for the API
