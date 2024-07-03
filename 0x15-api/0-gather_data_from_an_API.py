@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 Fetches and displays completed to-do list information for a specified user ID.
 
